@@ -6,21 +6,19 @@ const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
-        if (!username) {
-            throw new ThrowError('Username is required.');
-        }        
+        if (!email) {
+            throw new ThrowError('Email is required.');
+        }
 
-        const existingUser = await userModel.findOne({ username });
+        const existingUser = await userModel.findOne({ email });
 
-        if (existingUser) { throw new ThrowError('Username not available.') }
+        if (existingUser) { throw new ThrowError('Email already exist.') }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = await userModel.create({ username, password: hashedPassword })
-
-        console.log('newUser', newUser);
+        const newUser = await userModel.create({ email, password: hashedPassword })
 
         sendSuccessResponse(res, 'You are registered successfully', newUser)
     } catch (e) {
@@ -31,9 +29,9 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { email, password } = req.body;
 
-        const findUser = await userModel.findOne({ username });
+        const findUser = await userModel.findOne({ email });
 
         if (!findUser) { throw new ThrowError('User is not registered.') }
 
