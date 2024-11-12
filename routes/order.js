@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express();
+const middleware = require('../middleware/auth')
 
 const {
     create,
@@ -7,8 +8,8 @@ const {
     all
 } = require('../controllers/order')
 
-router.post("/create", create)
-router.delete("/cancel/:id", cancel)
-router.get("/:id", all)
+router.post("/create", middleware, create)
+router.delete("/cancel/:id", middleware, cancel)
+router.get("/:id", middleware, all)
 
 module.exports = router;

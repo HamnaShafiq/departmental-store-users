@@ -29,17 +29,23 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
+
         const { email, password } = req.body;
 
-        const findUser = await userModel.findOne({ email });
+        const user = await userModel.findOne({ email });
 
-        if (!findUser) { throw new ThrowError('User is not registered.') }
+        if (!user) { throw new ThrowError('User is not registered.') }
 
-        const matchPassword = await bcrypt.compare(password, findUser.password)
+        const matchPassword = await bcrypt.compare(password, user.password)
 
         if (!matchPassword) { throw new ThrowError('Incorrect password.') }
 
-        sendSuccessResponse(res, 'You are logged in successfully', findUser)
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_TOKEN_KEY, { expiresIn: '24h' })
+
+        const data = { ...user, token }
+        
+        sendSuccessResponse(res, 'You are logged in successfully', data)
+
     } catch (e) {
         console.log(e)
         sendErrorResponse(res, e)

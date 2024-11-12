@@ -42,8 +42,6 @@ exports.removeItem = async (req, res) => {
             return sendErrorResponse(res, "Item not found in cart");
         }
 
-        console.log('item', data);
-
         sendSuccessResponse(res, 'Item removed successfully from cart.')
 
     } catch (e) {
