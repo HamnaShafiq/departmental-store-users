@@ -5,6 +5,8 @@ const app = express();
 
 require("dotenv").config();
 require("./config/db").connect();
+require('./models/product'); 
+
 
 app.use(cors())
 app.use(express.static(__dirname + '/public'));
