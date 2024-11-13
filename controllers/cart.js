@@ -4,21 +4,20 @@ const ThrowError = require('../utils/ThrowError');
 
 exports.addItem = async (req, res) => {
     try {
+        const userId = req.user.userId;
+        const productId = req.params.id;
+        let data = await cartModel.findOne({ user: userId });
 
-        let data = await cartModel.findOne({ user: req.body.user });
-
-        if (!data) {
-            data = await cartModel.create({
-                ...req.body
-            })
+        if (data) {
+            data.items.push({ product: productId });
         } else {
-            {
-                req.body.items.map((item) => {
-                    data.items.push(item)
-                })
-            }
-            await data.save();
+            data = await cartModel.create({
+                user: userId,
+                items: [{ product: productId }]
+            });
         }
+
+        await data.save();
 
         sendSuccessResponse(res, "Product added to cart", data)
     } catch (e) {
@@ -29,17 +28,17 @@ exports.addItem = async (req, res) => {
 
 exports.removeItem = async (req, res) => {
     try {
-        const { itemId, user } = req.body;
+        const user = req.user.userId;
 
-        const cart = await cartModel.findOne({ user });
-
+        const itemId = req.params.id;
+        
         const data = await cartModel.updateOne(
             { user },
             { $pull: { items: { _id: itemId } } }
         )
 
         if (data.nModified === 0) {
-            return sendErrorResponse(res, "Item not found in cart");
+            return res.status(404).json({ success: false, msg: 'Item not found in cart' });
         }
 
         sendSuccessResponse(res, 'Item removed successfully from cart.')
@@ -52,9 +51,10 @@ exports.removeItem = async (req, res) => {
 
 exports.all = async (req, res) => {
     try {
-        const { userId } = req.params;
-
-        const data = await cartModel.findOne({ userId });
+        const userId = req.user.userId;
+        console.log('userId', userId);
+        
+        const data = await cartModel.findOne({ user: userId }).populate('items.product');
 
         sendSuccessResponse(res, 'All items fetched successfully.', data)
     } catch (e) {

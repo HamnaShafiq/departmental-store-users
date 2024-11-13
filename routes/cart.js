@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express();
+const middleware = require('../middleware/auth')
 
 const {
     addItem,
@@ -7,8 +8,8 @@ const {
     all
 } = require('../controllers/cart')
 
-router.post("/addItem", addItem)
-router.post("/removeItem", removeItem)
-router.get("/:id", all)
+router.get("/addItem/:id",middleware, addItem)
+router.get("/removeItem/:id",middleware, removeItem)
+router.get("/",middleware, all)
 
 module.exports = router;
