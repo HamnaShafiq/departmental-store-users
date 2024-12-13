@@ -32,14 +32,13 @@ exports.removeItem = async (req, res) => {
 
         const itemId = req.params.id;
 
-        const data = await cartModel.updateOne(
-            { user },
-            { $pull: { items: { _id: itemId } } }
-        )
+        const findUser = await cartModel.findOne({ user: user });
 
-        if (data.nModified === 0) {
-            return res.status(404).json({ success: false, msg: 'Item not found in cart' });
-        }
+        // const findItem = findUser.items.some((it)=>it._id.toString() ===itemId)
+                
+        findUser.items.pull({ _id: itemId })
+
+        findUser.save();
 
         sendSuccessResponse(res, 'Item removed successfully from cart.')
 
@@ -52,8 +51,6 @@ exports.removeItem = async (req, res) => {
 exports.all = async (req, res) => {
     try {
         const userId = req.user.userId;
-        console.log('userId', userId);
-
         const data = await cartModel.findOne({ user: userId }).populate('items.product');
 
         sendSuccessResponse(res, 'All items fetched successfully.', data)

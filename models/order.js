@@ -7,8 +7,9 @@ const orderSchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
+        firstName: { type: String, required: true },
+        lastName: { type: String },
         shippingAddress: {
-            fullName: { type: String, required: true },
             addressLine1: { type: String, required: true },
             addressLine2: { type: String },
             city: { type: String, required: true },
@@ -37,7 +38,6 @@ const orderSchema = new mongoose.Schema(
             },
             price: {
                 type: Number,
-                required: true,
             }
         }],
         status: {
