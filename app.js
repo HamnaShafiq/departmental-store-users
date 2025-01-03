@@ -8,6 +8,7 @@ require("./config/db").connect();
 require('./models/product'); 
 
 app.use(cors())
+app.options("*", cors()); 
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 
