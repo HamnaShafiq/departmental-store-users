@@ -1,6 +1,6 @@
 const cartModel = require('../models/cart');
 const { sendErrorResponse, sendSuccessResponse } = require('../utils/response');
-const ThrowError = require('../utils/ThrowError');
+const ThrowError = require('../utils/throwError');
 
 exports.addItem = async (req, res) => {
     try {

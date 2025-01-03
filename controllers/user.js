@@ -1,6 +1,6 @@
 const userModel = require('../models/user')
 const { sendErrorResponse, sendSuccessResponse } = require('../utils/response');
-const ThrowError = require('../utils/ThrowError');
+const ThrowError = require('../utils/throwError');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 

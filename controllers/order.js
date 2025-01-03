@@ -1,7 +1,7 @@
 const orderModel = require('../models/order');
 const cartModel = require('../models/cart');
 const { sendErrorResponse, sendSuccessResponse } = require('../utils/response');
-const ThrowError = require('../utils/ThrowError');
+const ThrowError = require('../utils/throwError');
 
 exports.create = async (req, res) => {
     try {

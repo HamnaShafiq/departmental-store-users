@@ -1,4 +1,4 @@
-const ThrowError = require('../utils/ThrowError');
+const ThrowError = require('../utils/throwError');
 const { sendErrorResponse } = require('../utils/response');
 const jwt = require('jsonwebtoken');
 
