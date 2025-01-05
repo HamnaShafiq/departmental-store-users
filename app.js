@@ -12,7 +12,7 @@ app.use(
     cors({
         origin: [
             "http://localhost:3000",
-            "https://departmental-store-frontend.vercel.app"
+            "https://departmental-store-frontend.vercel.app/"
             ],
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         credentials: true,
