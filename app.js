@@ -5,18 +5,23 @@ const app = express();
 
 require("dotenv").config();
 require("./config/db").connect();
-require('./models/product'); 
+require('./models/product');
 
 // app.use(cors())
-app.use(cors({
-    origin: ["http://localhost:3000", "https://departmental-store-frontend.vercel.app/"], // Replace with your frontend's URL
-    
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true, // Enable cookies and credentials sharing
-}));
+app.use(
+    cors({
+        origin: [
+            "http://localhost:3000",
+            "https://departmental-store-frontend.vercel.app"
+            ],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        credentials: true,
+    })
+);
 
 
-app.options("*", cors()); 
+app.options("*", cors());
+
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 
