@@ -29,8 +29,10 @@ require('./models/product');
 
 // app.use(cors())
 
-const corsoption ={
-    origin: '*',
+const corsoption = {
+    origin: [
+        '*'
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
 }
