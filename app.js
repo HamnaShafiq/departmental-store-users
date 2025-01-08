@@ -30,10 +30,7 @@ require('./models/product');
 // app.use(cors())
 
 const corsoption ={
-    origin: [
-        "http://localhost:3000",
-        "https://departmental-store-frontend.vercel.app"
-        ],
+    origin: '*',
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
 }
@@ -41,6 +38,8 @@ app.use(cors(corsoption));
 
 
 app.options("*", cors(corsoption));
+
+app.options("*", cors());
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 
