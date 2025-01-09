@@ -17,34 +17,35 @@
 // module.exports = app;
 
 
+
 const express = require("express");
-const cors = require("cors");
+const cors = require('cors');
 
 const app = express();
 
 require("dotenv").config();
 require("./config/db").connect();
-require("./models/product");
+require('./models/product');
 
-// Define CORS options
-const corsOptions = {
-    origin: "https://departmental-store-frontend.vercel.app", // Frontend URL
+// app.use(cors())
+
+const corsoption = {
+    origin: [
+        '*'
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true, // Allows cookies or authentication headers
-};
+}
+app.use(cors(corsoption));
 
-// Use CORS middleware
-app.use(cors(corsOptions));
 
-// Handle preflight requests for all routes
-app.options("*", cors(corsOptions));
+app.options("*", cors(corsoption));
 
-app.use(express.static(__dirname + "/public"));
+app.options("*", cors());
+app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 
 const apiRoutes = require("./routes/index");
 
-// Use API routes
 app.use("/api", apiRoutes);
 
 module.exports = app;
