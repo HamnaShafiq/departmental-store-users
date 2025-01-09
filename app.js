@@ -30,9 +30,7 @@ require('./models/product');
 // app.use(cors())
 
 const corsoption = {
-    origin: [
-        '*'
-    ],
+    origin: "https://departmental-store-frontend.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
 }
